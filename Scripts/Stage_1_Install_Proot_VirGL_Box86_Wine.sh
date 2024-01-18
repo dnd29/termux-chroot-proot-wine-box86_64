@@ -18,7 +18,7 @@ read -n 1 -s -r
 
 # Verify if the script was run before and let user to remove everything
 check_if_is_installed(){
-	if  [ -e "$PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu_box86" ] || \
+	if  [ -e "$PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu" ] || \
 		[ -e "~/.shortcuts/KillXFCE_proot" ] || \
 		[ -e "~/.shortcuts/LaunchXFCE_proot" ]; then
 			echo -e "${UYELLOW}Looks like there was an attempt to install this.${WHITE}"
@@ -91,14 +91,14 @@ install_termux_x11_pkg_app(){
 setup_ubuntu_proot(){
 	set -e
 	echo -e "${GREEN}Create an Ubuntu proot."
-	echo -e "${UYELLOW}Note: the proot alias is ubuntu_box86."
-	echo -e "${GREEN}Path: \$PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu_box86/${WHITE}"
-	proot-distro install ubuntu --override-alias ubuntu_box86
+	echo -e "${UYELLOW}Note: the proot alias is ubuntu."
+	echo -e "${GREEN}Path: \$PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu/${WHITE}"
+	proot-distro install ubuntu
 	echo -e "${GREEN}Put the second stage script inside the proot.${WHITE}"
-	cp Stage_2_Install_Proot_VirGL_Box86_Wine.sh $PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu_box86/root/Stage_2_Install_Proot_VirGL_Box86_Wine.sh
-	chmod +x $PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu_box86/root/Stage_2_Install_Proot_VirGL_Box86_Wine.sh
-	proot-distro login ubuntu_box86 --user root --shared-tmp --no-sysvipc -- bash -c "./Stage_2_Install_Proot_VirGL_Box86_Wine.sh"
-	rm $PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu_box86/root/Stage_2_Install_Proot_VirGL_Box86_Wine.sh
+	cp Stage_2_Install_Proot_VirGL_Box86_Wine.sh $PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu/root/Stage_2_Install_Proot_VirGL_Box86_Wine.sh
+	chmod +x $PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu/root/Stage_2_Install_Proot_VirGL_Box86_Wine.sh
+	proot-distro login ubuntu --user root --shared-tmp --no-sysvipc -- bash -c "./Stage_2_Install_Proot_VirGL_Box86_Wine.sh"
+	rm $PREFIX/var/lib/proot-distro/installed-rootfs/ubuntu/root/Stage_2_Install_Proot_VirGL_Box86_Wine.sh
 }
 
 # Function to install Termux:Widget app, enabling compatible shortcuts. 
@@ -128,7 +128,7 @@ sleep 3
 pulseaudio --start --load="module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1" --exit-idle-time=-1
 pacmd load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1 auth-anonymous=1
 virgl_test_server_android &
-proot-distro login ubuntu_box86 --user root --shared-tmp --no-sysvipc -- bash -c "export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4713; dbus-launch --exit-with-session startxfce4"' > ~/.shortcuts/LaunchXFCE_proot
+proot-distro login ubuntu --user root --shared-tmp --no-sysvipc -- bash -c "export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4713; dbus-launch --exit-with-session startxfce4"' > ~/.shortcuts/LaunchXFCE_proot
 	chmod +x ~/.shortcuts/LaunchXFCE_proot
 	echo -e "${GREEN}Create a kill all shortcut.${WHITE}"
 	echo '#!/bin/sh
